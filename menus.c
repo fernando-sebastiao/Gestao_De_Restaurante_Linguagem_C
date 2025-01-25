@@ -5,17 +5,39 @@
 
 #define MENU_CLIENTES 1
 #define MENU_RESERVAS 2
-#define MENU_PRATOS 3
-#define MENU_PEDIDOS 4
-#define MENU_PAGAMENTOS 5
-#define SAIR_DA_APLICACAO 6
+#define MENU_PRODUTO 3
+#define MENU_VENDAS 4
+#define SAIR 5
 
 #define NOVO_CLIENTE 1
 #define EDITAR_CLIENTE 2
 #define ELIMINAR_CLIENTE 3
 #define LISTAR_CLIENTE 4
-#define PESQUISAR_CLIENTE 5
-#define SAIR_DA_APLICACAO 6
+#define PESQUISAR_CLIENTE_POR_NOME 5
+#define PESQUISAR_CLIENTE_POR_DATA 6
+#define VOLTAR_CLIENTE 7
+
+
+#define NOVA_RESERVA 1
+#define EDITAR_RESERVA 2
+#define ELIMINAR_RESERVA 3
+#define LISTAR_RESERVA 4
+#define PESQUISAR_RESERVA 5
+#define VOLTAR_RESERVA 6
+
+#define NOVA_VENDA 1
+#define EDITAR_VENDA 2
+#define ELIMINAR_VENDA 3
+#define LISTAR_VENDA 4
+#define PESQUISAR_VENDA 5
+#define VOLTAR_VENDA 6
+
+#define NOVO_PRODUTO 1
+#define EDITAR_PRODUTO 2
+#define ELIMINAR_PRODUTO 3
+#define LISTAR_PRODUTO 4
+#define PESQUISAR_PRODUTO_NOME 5
+#define VOLTAR_PRODUTO 6
 
 void apresentacao()
 {
@@ -49,10 +71,9 @@ void menuPrincipal()
 	printf("***MENU PRINCIPAL***\n");
 	printf("***1 - MENU CLIENTES***\n");
 	printf("***2 - MENU RESERVAS***\n");
-	printf("***3 - MENU PRATOS***\n");
-	printf("***4 - MENU PEDIDOS***\n");
-	printf("***5 - MENU PAGAMENTOS");
-	printf("***6 - SAIR DA APLICACAO");
+	printf("***3 - MENU PRODUTO***\n");
+	printf("***4 - MENU VENDAS***\n");
+	printf("***5 - SAIR DA APLICACAO\n");
 	printf("Escolha uma opcao\n");
 	scanf("%d", &opcao);
 	switch(opcao){
@@ -61,22 +82,18 @@ void menuPrincipal()
 		break;
 		
 		case MENU_RESERVAS:
-			printf("Menu Reservas\n");
+			menuReservas();
 		break;
 		
-		case MENU_PRATOS:
-			printf("Menu pratos\n");
+		case MENU_PRODUTO:
+			menuProduto();
 		break;
 		
-		case MENU_PEDIDOS:
-			printf("Menu Pedidos\n");
+		case MENU_VENDAS:
+			menuVendas();
 		break;
 		
-		case MENU_PAGAMENTOS:
-			printf("Menu Pagamentos\n");
-		break;
-		
-		case SAIR_DA_APLICACAO:
+		case SAIR:
 			return;
 		break;
 		
@@ -93,13 +110,16 @@ void menuCliente()
 	
 	system("cls");
 	
+	do {
+	printf("\n");
 	printf("***MENU CLIENTE***\n");
 	printf("***1 - NOVO CLIENTE***\n");
 	printf("***2 - EDITAR CLIENTE***\n");
 	printf("***3 - ELIMINAR CLIENTE***\n");
 	printf("***4 - LISTAR CLIENTE***\n");
-	printf("***5 - PESQUISAR CADAVER***\n");
-	printf("***6 - SAIR_DA_APLICACAO***\n");
+	printf("***5 - PESQUISAR POR NOME***\n");
+	printf("***6 - LISTAR CLIENTES PELA DATA***\n");
+	printf("***7 - VOLTAR\n");
 	printf("Escolha uma opcao\n");
 	scanf("%d", &opcao);
 	
@@ -111,25 +131,186 @@ void menuCliente()
 		
 		case EDITAR_CLIENTE:
 			printf("Editar Cliente\n");
+			system("pause");
 		break;
 		
 		case ELIMINAR_CLIENTE:
 			printf("Eliminar Cliente\n");
+			system("pause");
 		break;
 	
 		case LISTAR_CLIENTE:
-			printf("Listar Clienter\n");
+			listarDadosCliente();
 		break;
 		
-		case PESQUISAR_CLIENTE:
-			printf("Pesquisar Cliente\n");
+		case PESQUISAR_CLIENTE_POR_NOME:
+			pesquisarClientePorNome();
+		break;
+		
+		case PESQUISAR_CLIENTE_POR_DATA:
+			printf("Pesquisar pela data");
+			system("pause");
+//			pesquisarClientePorNome();
 		break;
 			
-		case SAIR_DA_APLICACAO:
-			return;
+		case VOLTAR_CLIENTE:
+			menuPrincipal();
 		break;
 		
 		default:
 			printf("Opcao Invalida\n");
 	}
+	}while(opcao != VOLTAR_CLIENTE);
 }
+
+void menuReservas(){
+		int opcao;
+	
+	system("cls");
+	do{
+	printf("\n");
+	printf("***MENU RESERVAS***\n");
+	printf("***1 - NOVA RESERVA***\n");
+	printf("***2 - EDITAR RESERVA***\n");
+	printf("***3 - ELIMINAR RESERVA ***\n");
+	printf("***4 - LISTAR RESERVA***\n");
+	printf("***5 - PESQUISAR RESERVA***\n");
+	printf("***6 - VOLTAR***\n");
+	printf("\nEscolha uma opcao\n");
+	scanf("%d", &opcao);
+	
+	switch (opcao)
+	{
+		case NOVA_RESERVA:
+			salvarDadosReserva();
+		break;
+		
+		case EDITAR_RESERVA:
+			printf("Editar Reserva\n");
+		break;
+		
+		case ELIMINAR_RESERVA:
+			printf("Eliminar Reserva\n");
+		break;
+	
+		case LISTAR_RESERVA:
+			listarDadosReserva();
+		break;
+		
+		case PESQUISAR_RESERVA:
+			printf("Pesquisar Reserva\n");
+		break;
+				
+		case VOLTAR_RESERVA:
+			menuPrincipal();
+		break;
+		
+		default:
+			printf("Opcao Invalida\n");
+	}
+	}while(opcao!=VOLTAR_RESERVA);
+
+}
+
+void menuVendas(){
+	
+		int opcao;
+	
+	system("cls");
+	do{
+	printf("\n");
+	printf("***MENU VENDAS***\n");
+	printf("***1 - NOVA VENDA***\n");
+	printf("***2 - EDITAR VENDA***\n");
+	printf("***3 - ELIMINAR VENDA ***\n");
+	printf("***4 - LISTAR VENDA***\n");
+	printf("***5 - PESQUISAR VENDA***\n");
+	printf("***6 - VOLTAR***\n");
+	printf("\nEscolha uma opcao\n");
+	scanf("%d", &opcao);
+	
+	switch (opcao)
+	{
+		case NOVA_VENDA:
+			salvarDadosVenda();
+		break;
+		
+		case EDITAR_VENDA:
+			printf("Editar Reserva\n");
+		break;
+		
+		case ELIMINAR_VENDA:
+			printf("Eliminar Reserva\n");
+		break;
+	
+		case LISTAR_VENDA:
+			listarDadosVendas();
+		break;
+		
+		case PESQUISAR_VENDA:
+			printf("Pesquisar Cliente\n");
+		break;
+				
+		case VOLTAR_VENDA:
+			menuPrincipal();
+		break;
+		
+		default:
+			printf("Opcao Invalida\n");
+	}
+	}while(opcao!=VOLTAR_VENDA);
+}
+
+void menuProduto(){
+	
+		int opcao;
+	
+	system("cls");
+	do{
+	printf("\n");
+	printf("***MENU PRODUTO***\n");
+	printf("***1 - NOVO PRODUTO***\n");
+	printf("***2 - EDITAR PRODUTO***\n");
+	printf("***3 - ELIMINAR PRODUTO ***\n");
+	printf("***4 - LISTAR PRODUTOS***\n");
+	printf("***5 - PESQUISAR PRODUTO***\n");
+	printf("***6 - VOLTAR***\n");
+	printf("\nEscolha uma opcao\n");
+	scanf("%d", &opcao);
+	
+	switch (opcao)
+	{
+		case NOVO_PRODUTO:
+			salvarDadosProduto();
+		break;
+		
+		case EDITAR_PRODUTO:
+			printf("Editar Produto\n");
+			system("pause");
+		break;
+		
+		case ELIMINAR_PRODUTO:
+			printf("Eliminar Reserva\n");
+			system("pause");
+		break;
+	
+		case LISTAR_PRODUTO:
+			listarDadosProdutos();
+		break;
+		
+		case PESQUISAR_PRODUTO_NOME:
+			pesquisarProdutoPeloNome();
+		break;
+				
+		case VOLTAR_PRODUTO:
+			menuPrincipal();
+		break;
+		
+		default:
+			printf("Opcao Invalida\n");
+	}
+	}while(opcao!=VOLTAR_PRODUTO);
+}
+
+
+
