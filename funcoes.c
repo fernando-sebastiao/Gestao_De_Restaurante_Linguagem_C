@@ -94,6 +94,7 @@ void mostrarDadosCliente(CLIENTE cliente)
 		cliente.dataEntrada.dia, 
 		cliente.dataEntrada.mes, 
 		cliente.dataEntrada.ano);	
+	puts("---------------------------------------");
 
 }
 
@@ -159,44 +160,41 @@ void pesquisarClientePorNome()
 	fclose( fp );
 }
 
-/*
-void pesquisarClientesPelaData()
-{
-	FILE *fp;
-	CLIENTE cliente;
-	char nomeProcurado[50];
-	
-	//abrir ou criar o ficheiro 
-	fp = fopen("CLIENTES.DAT", "rb");
-	
-	//colocar o File Pointer no principio do ficheiro
-	rewind(fp);
-		
-	puts("Digite o Nome Procurado");
-	getchar();
-	gets(nomeProcurado);
-		
-	//escrever os dados da estrutura para o ficheiro
-	while( fread(&cliente, sizeof(CLIENTE), 1, fp) == 1)
-	{	
-		if ( strcmp(cliente.nome, nomeProcurado) == 0)
-		{	
-			system("cls");
-						
-			puts("Registo Localizado");
-			puts("----------------------------");
-			mostrarDadosCliente(cliente);
-			
-			fclose(fp);
-			return;
-		}
-	}
-	
-	printf("%s nao Encontrado(a)!...\n", nomeProcurado);
-		
-	fclose( fp );
-}
-*/
+void pesquisarClientesPelaData() {
+    FILE *fp;
+    CLIENTE cliente;
+    DATE dataProcurada;
+
+    // Abrir ou criar o ficheiro
+    fp = fopen("CLIENTES.DAT", "rb");
+    
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+
+    // Colocar o File Pointer no princ�pio do ficheiro
+    rewind(fp);
+
+    // Pedir a data procurada ao usu�rio
+    printf("Digite a Data Procurada (dd/mm/aaaa): ");
+    scanf("%d/%d/%d", &dataProcurada.dia, &dataProcurada.mes, &dataProcurada.ano);
+
+    // Escrever os dados da estrutura para o ficheiro
+    while (fread(&cliente, sizeof(CLIENTE), 1, fp) == 1) {    
+        if (cliente.dataEntrada.dia == dataProcurada.dia && 
+            cliente.dataEntrada.mes == dataProcurada.mes && 
+            cliente.dataEntrada.ano == dataProcurada.ano) {    
+            system("cls");
+            
+            puts("Registo Localizado");
+            puts("----------------------------");
+            mostrarDadosCliente(cliente);
+            
+            fclose(fp);
+            return;
+        }
+    }
 
 
 //Relacionado aos dados da Reserva
@@ -288,7 +286,7 @@ void mostrarDadosReserva(RESERVA reserva)
 		reserva.dataReserva.dia, 
 		reserva.dataReserva.mes, 
 		reserva.dataReserva.ano);	
-
+puts("---------------------------------------");
 }
 
 void listarDadosReserva()
@@ -433,7 +431,7 @@ void mostrarDadosVenda(VENDA venda)
 		venda.data_venda.dia, 
 		venda.data_venda.mes, 
 		venda.data_venda.ano);	
-
+puts("---------------------------------------");
 }
 
 //Relacionado ao Produto

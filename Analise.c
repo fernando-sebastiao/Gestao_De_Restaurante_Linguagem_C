@@ -1,6 +1,6 @@
 /*************************
 File: Analise.c
-Tema: Gestão de um Restaurante
+Tema: Gestï¿½o de um Restaurante
 Nome: Fernando Afonso Sebastiao, 34422
 Data: 18.01.2025
 **************************/
@@ -16,7 +16,7 @@ pedidos e pagamentos de clientes num restaurante.
 			2 - MENU RESERVAS
 			3 - MENU PRODUTO
 			4 - MENU VENDA
-			6 - SAIR DA APLICAÇÃO
+			6 - SAIR DA APLICAï¿½ï¿½O
 			
 	2.1.1 - MENU CLIENTES
 			1 - NOVO CLIENTE
@@ -52,7 +52,7 @@ pedidos e pagamentos de clientes num restaurante.
 			6 - VOLTAR
 			
 			
-3. Entidades
+3. ENTIDADES
 	DATE
 		int dia, mes, ano;
 		
@@ -82,7 +82,7 @@ pedidos e pagamentos de clientes num restaurante.
 	PRODUTOS.DAT
 	VENDAS.DAT
 	
-5. Implementação
+5. Implementaï¿½ï¿½o
 Linguagem C, no IDE: Dev-C++
 */
 

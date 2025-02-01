@@ -6,6 +6,7 @@ void salvarDadosCliente();
 void mostrarDadosCliente(CLIENTE cliente);
 void listarDadosCliente();
 void pesquisarClientePorNome();
+void pesquisarClientesPelaData();
 
 //Reservas
 void pedirDadosReserva(RESERVA *reserva);

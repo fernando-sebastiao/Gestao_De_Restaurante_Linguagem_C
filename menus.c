@@ -148,9 +148,9 @@ void menuCliente()
 		break;
 		
 		case PESQUISAR_CLIENTE_POR_DATA:
-			printf("Pesquisar pela data");
+			pesquisarClientesPelaData();
 			system("pause");
-//			pesquisarClientePorNome();
+
 		break;
 			
 		case VOLTAR_CLIENTE:
