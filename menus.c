@@ -111,7 +111,6 @@ void menuCliente()
 	system("cls");
 	
 	do {
-	printf("\n");
 	printf("***MENU CLIENTE***\n");
 	printf("***1 - NOVO CLIENTE***\n");
 	printf("***2 - EDITAR CLIENTE***\n");
@@ -174,7 +173,7 @@ void menuReservas(){
 	printf("***2 - EDITAR RESERVA***\n");
 	printf("***3 - ELIMINAR RESERVA ***\n");
 	printf("***4 - LISTAR RESERVA***\n");
-	printf("***5 - PESQUISAR RESERVA***\n");
+	printf("***5 - PESQUISAR RESERVA PELA DATA***\n");
 	printf("***6 - VOLTAR***\n");
 	printf("\nEscolha uma opcao\n");
 	scanf("%d", &opcao);
@@ -198,7 +197,7 @@ void menuReservas(){
 		break;
 		
 		case PESQUISAR_RESERVA:
-			printf("Pesquisar Reserva\n");
+			pesquisarReservasPelaData();
 		break;
 				
 		case VOLTAR_RESERVA:
@@ -236,11 +235,11 @@ void menuVendas(){
 		break;
 		
 		case EDITAR_VENDA:
-			printf("Editar Reserva\n");
+			printf("Editar Venda\n");
 		break;
 		
 		case ELIMINAR_VENDA:
-			printf("Eliminar Reserva\n");
+			printf("Eliminar Venda\n");
 		break;
 	
 		case LISTAR_VENDA:
@@ -248,7 +247,7 @@ void menuVendas(){
 		break;
 		
 		case PESQUISAR_VENDA:
-			printf("Pesquisar Cliente\n");
+			pesquisarVendaPelaData();
 		break;
 				
 		case VOLTAR_VENDA:

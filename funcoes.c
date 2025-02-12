@@ -35,6 +35,8 @@ void pedirDadosCliente(CLIENTE *cliente){
     printf("BI: %s\n", cliente->bi);
     printf("Nacionalidade: %s\n", cliente->nacionalidade);
     printf("Data de Entrada: %d-%d-%d\n", cliente->dataEntrada.dia, cliente->dataEntrada.mes, cliente->dataEntrada.ano);
+
+	puts("\n----------------------------\n");
 	
 }
 
@@ -94,7 +96,7 @@ void mostrarDadosCliente(CLIENTE cliente)
 		cliente.dataEntrada.dia, 
 		cliente.dataEntrada.mes, 
 		cliente.dataEntrada.ano);	
-	puts("---------------------------------------");
+	puts("---------------------------------------\n");
 
 }
 
@@ -155,7 +157,7 @@ void pesquisarClientePorNome()
 		}
 	}
 	
-	printf("%s nao Encontrado(a)!...\n", nomeProcurado);
+	printf("Cliente %s nao Encontrado(a)!...\n", nomeProcurado);
 		
 	fclose( fp );
 }
@@ -164,38 +166,46 @@ void pesquisarClientesPelaData() {
     FILE *fp;
     CLIENTE cliente;
     DATE dataProcurada;
+    int encontrado = 0;
 
-    // Abrir ou criar o ficheiro
+    // Abrir o ficheiro
     fp = fopen("CLIENTES.DAT", "rb");
-    
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
+        printf("Erro ao abrir o arquivo ou arquivo inexistente!\n");
         return;
     }
 
-    // Colocar o File Pointer no princ�pio do ficheiro
-    rewind(fp);
-
-    // Pedir a data procurada ao usu�rio
+    // Solicitar a data ao usu�rio
     printf("Digite a Data Procurada (dd/mm/aaaa): ");
-    scanf("%d/%d/%d", &dataProcurada.dia, &dataProcurada.mes, &dataProcurada.ano);
+    if (scanf("%d/%d/%d", &dataProcurada.dia, &dataProcurada.mes, &dataProcurada.ano) != 3) {
+        printf("Erro: formato inv�lido!\n");
+        fclose(fp);
+        return;
+    }
 
-    // Escrever os dados da estrutura para o ficheiro
+    getchar(); // Consumir a quebra de linha para evitar problemas na pr�xima leitura
+
+    // Percorrer o arquivo buscando a data
     while (fread(&cliente, sizeof(CLIENTE), 1, fp) == 1) {    
         if (cliente.dataEntrada.dia == dataProcurada.dia && 
             cliente.dataEntrada.mes == dataProcurada.mes && 
             cliente.dataEntrada.ano == dataProcurada.ano) {    
-            system("cls");
             
-            puts("Registo Localizado");
+            encontrado = 1;
+            puts("\nRegisto Localizado:");
             puts("----------------------------");
             mostrarDadosCliente(cliente);
-            
-            fclose(fp);
-            return;
         }
     }
 
+    // Se nenhum cliente foi encontrado
+    if (!encontrado) {
+        printf("\nNenhum cliente encontrado com a data %02d/%02d/%04d.\n", 
+               dataProcurada.dia, dataProcurada.mes, dataProcurada.ano);
+    }
+
+    fclose(fp);
+}
 
 //Relacionado aos dados da Reserva
 void pedirDadosReserva(RESERVA *reserva){
@@ -286,7 +296,7 @@ void mostrarDadosReserva(RESERVA reserva)
 		reserva.dataReserva.dia, 
 		reserva.dataReserva.mes, 
 		reserva.dataReserva.ano);	
-puts("---------------------------------------");
+puts("\n---------------------------------------\n");
 }
 
 void listarDadosReserva()
@@ -312,6 +322,51 @@ void listarDadosReserva()
 	}
 		
 	fclose( fp );
+}
+
+void pesquisarReservasPelaData() {
+    FILE *fp;
+    RESERVA reserva;
+    DATE dataProcurada;
+    int encontrado = 0;
+
+    // Abrir o arquivo
+    fp = fopen("RESERVAS.DAT", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo ou arquivo inexistente!\n");
+        return;
+    }
+
+    // Solicitar a data ao usu�rio
+    printf("Digite a Data da Reserva Procurada (dd/mm/aaaa): ");
+    if (scanf("%d/%d/%d", &dataProcurada.dia, &dataProcurada.mes, &dataProcurada.ano) != 3) {
+        printf("Erro: formato inv�lido!\n");
+        fclose(fp);
+        return;
+    }
+
+    getchar(); // Consumir a quebra de linha para evitar problemas na pr�xima leitura
+
+    // Percorrer o arquivo buscando reservas na data informada
+    while (fread(&reserva, sizeof(RESERVA), 1, fp) == 1) {    
+        if (reserva.dataReserva.dia == dataProcurada.dia && 
+            reserva.dataReserva.mes == dataProcurada.mes && 
+            reserva.dataReserva.ano == dataProcurada.ano) {    
+
+            encontrado = 1;
+            puts("\nReserva Localizada:");
+            puts("----------------------------");
+            mostrarDadosReserva(reserva);
+        }
+    }
+
+    // Se nenhuma reserva foi encontrada
+    if (!encontrado) {
+        printf("\nNenhuma reserva encontrada para a data %02d/%02d/%04d.\n", 
+               dataProcurada.dia, dataProcurada.mes, dataProcurada.ano);
+    }
+
+    fclose(fp);
 }
 
 //Relacionado a Vendas
@@ -365,6 +420,52 @@ int getNextVendaAutoID()
 	fclose( fp );
 	
 	return nextID;
+}
+
+
+void pesquisarVendaPelaData() {
+    FILE *fp;
+    VENDA venda;
+    DATE dataProcurada;
+    int encontrado = 0;
+
+    // Abrir o ficheiro
+    fp = fopen("VENDAS.DAT", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo ou arquivo inexistente!\n");
+        return;
+    }
+
+    // Solicitar a data ao usu�rio
+    printf("Digite a Data Procurada (dd/mm/aaaa): ");
+    if (scanf("%d/%d/%d", &dataProcurada.dia, &dataProcurada.mes, &dataProcurada.ano) != 3) {
+        printf("Erro: formato inv�lido!\n");
+        fclose(fp);
+        return;
+    }
+
+    getchar(); // Consumir a quebra de linha para evitar problemas na pr�xima leitura
+
+    // Percorrer o arquivo buscando a data
+    while (fread(&venda, sizeof(VENDA), 1, fp) == 1) {    
+        if (venda.data_venda.dia == dataProcurada.dia && 
+            venda.data_venda.mes == dataProcurada.mes && 
+            venda.data_venda.ano == dataProcurada.ano) {    
+            
+            encontrado = 1;
+            puts("\nRegisto Localizado:");
+            puts("----------------------------");
+            mostrarDadosVenda(venda);
+        }
+    }
+
+    // Se nenhum cliente foi encontrado
+    if (!encontrado) {
+        printf("\nNenhuma venda encontrada com a data %02d/%02d/%04d.\n", 
+               dataProcurada.dia, dataProcurada.mes, dataProcurada.ano);
+    }
+
+    fclose(fp);
 }
 
 void salvarDadosVenda()

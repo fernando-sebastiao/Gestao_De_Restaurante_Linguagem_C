@@ -13,6 +13,7 @@ void pedirDadosReserva(RESERVA *reserva);
 void salvarDadosReserva();
 void mostrarDadosReserva(RESERVA reserva);
 void listarDadosReserva();
+void pesquisarReservasPelaData();
 
 //Gerar Id automatico
 int getNextClienteAutoID();
@@ -23,6 +24,7 @@ void pedirDadosVenda(VENDA *venda);
 void salvarDadosVenda();
 void listarDadosVendas();
 void mostrarDadosVenda(VENDA venda);
+void pesquisarVendaPelaData();
 
 //Produto
 void pedirDadosProduto(PRODUTO *produto);

@@ -32,7 +32,7 @@ pedidos e pagamentos de clientes num restaurante.
 			2 - EDITAR RESERVA
 			3 - ELIMINAR RESERVA
 			4 - LISTAR RESERVAS
-			5 - PESQUISAR RESERVA
+			5 - PESQUISAR RESERVA PELA DATA
 			6 - VOLTAR
 			
 	2.1.3 - MENU PRODUTO
@@ -48,7 +48,7 @@ pedidos e pagamentos de clientes num restaurante.
 			2 - EDITAR VENDA
 			3 - ELIMINAR VENDA
 			4 - LISTAR VENDA
-			5 - PESQUISAR VENDA
+			5 - PESQUISAR VENDA PELA DATA
 			6 - VOLTAR
 			
 			
