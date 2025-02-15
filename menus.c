@@ -41,6 +41,7 @@
 
 void apresentacao()
 {
+	system("cls");
 	char opcao;
 	printf("\t---------------------------------------------\n");
 	printf("\tUNIVERSIDADE CATOLICA DE ANGOLA");
@@ -53,6 +54,7 @@ void apresentacao()
 	printf("\tOBS: USO EXCLUSIVO DENTRO DA UCAN\n");
 	printf("\t------------------------------------------------\n");
 	printf("\tSE CONCORDA COM OS TERMOS DE USO DIGITE S, N CASO CONTRARIO\n");
+	getchar();
 	scanf("%c", &opcao);
 	if(opcao == 'S' || opcao == 's')
 	menuPrincipal();
@@ -61,6 +63,25 @@ void apresentacao()
 		printf("Muito Obrigado. Ate a proxima!\n");
 		return;
 	}
+}
+
+int login() {
+    char email[100];
+    char senha[50];
+
+    printf("***** LOGIN *****\n");
+    printf("Email: ");
+    scanf("%s", email);
+    printf("Senha: ");
+    scanf("%s", senha);
+
+    // Verifica credenciais
+    if (strcmp(email, "fernandosebastiao888@gmail.com") == 0 && strcmp(senha, "Honestidade888") == 0) {
+        return 1; 
+    } else {
+        printf("Credenciais incorretas! Tente novamente.\n\n");
+        return 0; 
+    }
 }
 
 void menuPrincipal()
@@ -129,13 +150,11 @@ void menuCliente()
 		break;
 		
 		case EDITAR_CLIENTE:
-			printf("Editar Cliente\n");
-			system("pause");
+			editarClientePorNome();
 		break;
 		
 		case ELIMINAR_CLIENTE:
-			printf("Eliminar Cliente\n");
-			system("pause");
+			eliminarClientePorNome();
 		break;
 	
 		case LISTAR_CLIENTE:
@@ -148,8 +167,6 @@ void menuCliente()
 		
 		case PESQUISAR_CLIENTE_POR_DATA:
 			pesquisarClientesPelaData();
-			system("pause");
-
 		break;
 			
 		case VOLTAR_CLIENTE:
@@ -185,11 +202,11 @@ void menuReservas(){
 		break;
 		
 		case EDITAR_RESERVA:
-			printf("Editar Reserva\n");
+			editarReserva();
 		break;
 		
 		case ELIMINAR_RESERVA:
-			printf("Eliminar Reserva\n");
+			eliminarReserva();
 		break;
 	
 		case LISTAR_RESERVA:
@@ -284,13 +301,11 @@ void menuProduto(){
 		break;
 		
 		case EDITAR_PRODUTO:
-			printf("Editar Produto\n");
-			system("pause");
+			editarProdutoPorNome();
 		break;
 		
 		case ELIMINAR_PRODUTO:
-			printf("Eliminar Reserva\n");
-			system("pause");
+			eliminarProdutoPorNome();
 		break;
 	
 		case LISTAR_PRODUTO:

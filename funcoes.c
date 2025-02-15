@@ -3,6 +3,108 @@
 #include "funcoes.h"
 
 //Relacionado aos dados do cliente
+
+void editarClientePorNome() {
+    FILE *arquivo = fopen("CLIENTES.DAT", "rb+");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo CLIENTES.DAT!\n");
+        return;
+    }
+
+    char nomeBusca[50];
+    printf("Digite o nome do cliente que deseja editar: ");
+    getchar();
+    fgets(nomeBusca, sizeof(nomeBusca), stdin);
+    nomeBusca[strcspn(nomeBusca, "\n")] = '\0'; // Remove o '\n'
+
+    CLIENTE cliente;
+    int encontrado = 0;
+    
+    while (fread(&cliente, sizeof(CLIENTE), 1, arquivo)) {
+        if (strcasecmp(cliente.nome, nomeBusca) == 0) {
+            encontrado = 1;
+            printf("\nCliente encontrado! Insira os novos dados:\n");
+
+            printf("Novo nome: ");
+            fgets(cliente.nome, sizeof(cliente.nome), stdin);
+            cliente.nome[strcspn(cliente.nome, "\n")] = '\0';
+
+            printf("Novo telefone: ");
+            fgets(cliente.telefone, sizeof(cliente.telefone), stdin);
+            cliente.telefone[strcspn(cliente.telefone, "\n")] = '\0';
+
+            printf("Novo BI: ");
+            fgets(cliente.bi, sizeof(cliente.bi), stdin);
+            cliente.bi[strcspn(cliente.bi, "\n")] = '\0';
+
+            printf("Nova nacionalidade: ");
+            fgets(cliente.nacionalidade, sizeof(cliente.nacionalidade), stdin);
+            cliente.nacionalidade[strcspn(cliente.nacionalidade, "\n")] = '\0';
+
+            printf("Nova data de entrada (dd mm aaaa): ");
+            scanf("%d %d %d", &cliente.dataEntrada.dia, &cliente.dataEntrada.mes, &cliente.dataEntrada.ano);
+            getchar();
+
+            // Retorna o ponteiro para reescrever no mesmo local
+            fseek(arquivo, -sizeof(CLIENTE), SEEK_CUR);
+            fwrite(&cliente, sizeof(CLIENTE), 1, arquivo);
+            printf("\nCliente atualizado com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Cliente '%s' não encontrado!\n", nomeBusca);
+    }
+
+    fclose(arquivo);
+}
+
+void eliminarClientePorNome() {
+	
+    FILE *arquivo = fopen("CLIENTES.DAT", "rb");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo CLIENTE.DAT!\n");
+        return;
+    }
+
+    FILE *temp = fopen("TEMP.DAT", "wb");
+    if (!temp) {
+        printf("Erro ao criar arquivo temporário!\n");
+        fclose(arquivo);
+        return;
+    }
+
+    char nomeBusca[50];
+    printf("Digite o nome do cliente para remover: ");
+    getchar();
+    fgets(nomeBusca, sizeof(nomeBusca), stdin);
+    nomeBusca[strcspn(nomeBusca, "\n")] = '\0';
+
+    CLIENTE cliente;
+    int encontrado = 0;
+    
+    while (fread(&cliente, sizeof(CLIENTE), 1, arquivo)) {
+        if (strcasecmp(cliente.nome, nomeBusca) == 0) {
+            encontrado = 1;
+            printf("\nCliente '%s' removido com sucesso!\n", nomeBusca);
+        } else {
+            fwrite(&cliente, sizeof(CLIENTE), 1, temp);
+        }
+    }
+
+    fclose(arquivo);
+    fclose(temp);
+
+    if (!encontrado) {
+        printf("Nenhum cliente encontrado com o nome '%s'.\n", nomeBusca);
+        remove("TEMP.DAT"); // Exclui o arquivo temporário se nada foi removido
+    } else {
+        remove("CLIENTES.DAT");  // Remove o original
+        rename("TEMP.DAT", "CLIENTE.DAT"); // Renomeia o temporário
+    }
+}
+
 void pedirDadosCliente(CLIENTE *cliente){
 	
 	system("cls");
@@ -369,6 +471,96 @@ void pesquisarReservasPelaData() {
     fclose(fp);
 }
 
+void editarReserva() {
+    FILE *arquivo = fopen("RESERVAS.DAT", "rb+");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo RESERVAS.DAT!\n");
+        return;
+    }
+
+    int idClienteBusca;
+    printf("Digite o ID do cliente da reserva que deseja editar: ");
+    scanf("%d", &idClienteBusca);
+
+    RESERVA reserva;
+    int encontrado = 0;
+
+    while (fread(&reserva, sizeof(RESERVA), 1, arquivo)) {
+        if (reserva.idCliente == idClienteBusca) {
+            encontrado = 1;
+            printf("\nReserva encontrada! Insira os novos dados:\n");
+
+            printf("Novo número de pessoas: ");
+            scanf("%d", &reserva.numPessoas);
+
+            printf("Novo horário (hh:mm): ");
+            scanf("%s", reserva.horario);
+
+            printf("Novo funcionário responsável: ");
+            getchar(); // Limpa buffer
+            fgets(reserva.funcionario, sizeof(reserva.funcionario), stdin);
+            reserva.funcionario[strcspn(reserva.funcionario, "\n")] = '\0'; // Remove o '\n'
+
+            // Retorna o ponteiro para reescrever no mesmo local
+            fseek(arquivo, -sizeof(RESERVA), SEEK_CUR);
+            fwrite(&reserva, sizeof(RESERVA), 1, arquivo);
+
+            printf("\nReserva atualizada com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Reserva para o cliente %d não encontrada!\n", idClienteBusca);
+    }
+
+    fclose(arquivo);
+}
+
+void eliminarReserva() {
+	
+    FILE *arquivo = fopen("RESERVAS.DAT", "rb");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo RESERVAS.DAT!\n");
+        return;
+    }
+
+    FILE *tempArquivo = fopen("TEMP.DAT", "wb");
+    if (!tempArquivo) {
+        printf("Erro ao criar arquivo temporário!\n");
+        fclose(arquivo);
+        return;
+    }
+
+    int idClienteBusca;
+    printf("Digite o ID do cliente da reserva que deseja eliminar: ");
+    scanf("%d", &idClienteBusca);
+
+    RESERVA reserva;
+    int encontrado = 0;
+
+    while (fread(&reserva, sizeof(RESERVA), 1, arquivo)) {
+        if (reserva.idCliente == idClienteBusca) {
+            encontrado = 1;
+            printf("\nReserva para o cliente %d eliminada com sucesso!\n", idClienteBusca);
+        } else {
+            fwrite(&reserva, sizeof(RESERVA), 1, tempArquivo);
+        }
+    }
+
+    fclose(arquivo);
+    fclose(tempArquivo);
+
+    if (encontrado) {
+        remove("RESERVAS.DAT");
+        rename("TEMP.DAT", "RESERVAS.DAT");
+    } else {
+        printf("Reserva para o cliente %d não encontrada!\n", idClienteBusca);
+        remove("TEMP.DAT");
+    }
+}
+
+
 //Relacionado a Vendas
 void pedirDadosVenda(VENDA *venda) {  
 	
@@ -663,4 +855,93 @@ void pesquisarProdutoPeloNome()
 	printf("%s nao Encontrado(a)!...\n", nomeProcurado);
 		
 	fclose( fp );
+}
+
+void editarProdutoPorNome() {
+    FILE *arquivo = fopen("PRODUTOS.DAT", "rb+");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo PRODUTOS.DAT!\n");
+        return;
+    }
+
+    char nomeBusca[50];
+    printf("Digite o nome do produto que deseja editar: ");
+    getchar();
+    fgets(nomeBusca, sizeof(nomeBusca), stdin);
+    nomeBusca[strcspn(nomeBusca, "\n")] = '\0'; // Remove o '\n'
+
+    PRODUTO produto;
+    int encontrado = 0;
+    
+    while (fread(&produto, sizeof(PRODUTO), 1, arquivo)) {
+        if (strcasecmp(produto.nome_produto, nomeBusca) == 0) {
+            encontrado = 1;
+            printf("\nProduto encontrado! Insira os novos dados:\n");
+
+            printf("Novo nome do produto: ");
+            fgets(produto.nome_produto, sizeof(produto.nome_produto), stdin);
+            produto.nome_produto[strcspn(produto.nome_produto, "\n")] = '\0';
+
+            printf("Novo preço: ");
+            scanf("%f", &produto.preco);
+            getchar();
+
+            // Retorna o ponteiro para reescrever no mesmo local
+            fseek(arquivo, -sizeof(PRODUTO), SEEK_CUR);
+            fwrite(&produto, sizeof(PRODUTO), 1, arquivo);
+            printf("\nProduto atualizado com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Produto '%s' não encontrado!\n", nomeBusca);
+    }
+
+    fclose(arquivo);
+}
+
+void eliminarProdutoPorNome() {
+	
+    FILE *arquivo = fopen("PRODUTOS.DAT", "rb");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo PRODUTOS.DAT!\n");
+        return;
+    }
+
+    FILE *temp = fopen("TEMP.DAT", "wb");
+    if (!temp) {
+        printf("Erro ao criar arquivo temporário!\n");
+        fclose(arquivo);
+        return;
+    }
+
+    char nomeBusca[50];
+    printf("Digite o nome do produto para remover: ");
+    getchar();
+    fgets(nomeBusca, sizeof(nomeBusca), stdin);
+    nomeBusca[strcspn(nomeBusca, "\n")] = '\0';
+
+    PRODUTO produto;
+    int encontrado = 0;
+    
+    while (fread(&produto, sizeof(PRODUTO), 1, arquivo)) {
+        if (strcasecmp(produto.nome_produto, nomeBusca) == 0) {
+            encontrado = 1;
+            printf("\nProduto '%s' removido com sucesso!\n", nomeBusca);
+        } else {
+            fwrite(&produto, sizeof(PRODUTO), 1, temp);
+        }
+    }
+
+    fclose(arquivo);
+    fclose(temp);
+
+    if (!encontrado) {
+        printf("Nenhum produto encontrado com o nome '%s'.\n", nomeBusca);
+        remove("TEMP.DAT"); // Exclui o arquivo temporário se nada foi removido
+    } else {
+        remove("PRODUTOS.DAT");  // Remove o original
+        rename("TEMP.DAT", "PRODUTOS.DAT"); // Renomeia o temporário
+    }
 }

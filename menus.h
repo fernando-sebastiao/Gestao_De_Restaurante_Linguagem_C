@@ -2,6 +2,8 @@
 void apresentacao();
 void menuPrincipal();
 
+//Login
+int login();
 //Cliente
 void menuCliente();
 

@@ -7,6 +7,8 @@ void mostrarDadosCliente(CLIENTE cliente);
 void listarDadosCliente();
 void pesquisarClientePorNome();
 void pesquisarClientesPelaData();
+void eliminarClientePorNome();
+void editarClientePorNome();
 
 //Reservas
 void pedirDadosReserva(RESERVA *reserva);
@@ -14,7 +16,8 @@ void salvarDadosReserva();
 void mostrarDadosReserva(RESERVA reserva);
 void listarDadosReserva();
 void pesquisarReservasPelaData();
-
+void editarReserva();
+void eliminarReserva();
 //Gerar Id automatico
 int getNextClienteAutoID();
 
@@ -32,4 +35,6 @@ void salvarDadosProduto();
 void listarDadosProdutos();
 void mostrarDadosProduto(PRODUTO produto);
 int getNextProdutoAutoID();
+void eliminarProdutoPorNome();
+void editarProdutoPorNome();
 void pesquisarProdutoPeloNome();
