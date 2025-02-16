@@ -54,7 +54,7 @@ void editarClientePorNome() {
     }
 
     if (!encontrado) {
-        printf("Cliente '%s' não encontrado!\n", nomeBusca);
+        printf("Cliente '%s' nï¿½o encontrado!\n", nomeBusca);
     }
 
     fclose(arquivo);
@@ -64,13 +64,13 @@ void eliminarClientePorNome() {
 	
     FILE *arquivo = fopen("CLIENTES.DAT", "rb");
     if (!arquivo) {
-        printf("Erro ao abrir o arquivo CLIENTE.DAT!\n");
+        printf("Erro ao abrir o arquivo CLIENTES.DAT!\n");
         return;
     }
 
     FILE *temp = fopen("TEMP.DAT", "wb");
     if (!temp) {
-        printf("Erro ao criar arquivo temporário!\n");
+        printf("Erro ao criar arquivo temporï¿½rio!\n");
         fclose(arquivo);
         return;
     }
@@ -98,10 +98,10 @@ void eliminarClientePorNome() {
 
     if (!encontrado) {
         printf("Nenhum cliente encontrado com o nome '%s'.\n", nomeBusca);
-        remove("TEMP.DAT"); // Exclui o arquivo temporário se nada foi removido
+        remove("TEMP.DAT"); // Exclui o arquivo temporï¿½rio se nada foi removido
     } else {
         remove("CLIENTES.DAT");  // Remove o original
-        rename("TEMP.DAT", "CLIENTE.DAT"); // Renomeia o temporário
+        rename("TEMP.DAT", "CLIENTES.DAT"); // Renomeia o temporï¿½rio
     }
 }
 
@@ -116,6 +116,9 @@ void pedirDadosCliente(CLIENTE *cliente){
 	getchar();
 	printf("Nome?\n");
 	gets(cliente->nome);
+	
+	printf("Genero?\n");
+	gets(cliente->genero);
 	
 	printf("Telefone?\n");
 	gets(cliente->telefone);
@@ -133,6 +136,7 @@ void pedirDadosCliente(CLIENTE *cliente){
 	printf("\nDados Inseridos:\n");
     printf("ID: %d\n", cliente->id);
     printf("Nome: %s\n", cliente->nome);
+    printf("Genero: %s\n", cliente->genero);
     printf("Telefone: %s\n", cliente->telefone);
     printf("BI: %s\n", cliente->bi);
     printf("Nacionalidade: %s\n", cliente->nacionalidade);
@@ -189,6 +193,8 @@ void mostrarDadosCliente(CLIENTE cliente)
 	printf("Nome: %s\n", cliente.nome);
 		
 	printf("BI: %s\n", cliente.bi);
+	
+	printf("Genero: %s\n", cliente.genero);
 
 	printf("Telefone: %s\n", cliente.telefone);
 	
@@ -223,6 +229,43 @@ void listarDadosCliente()
 		puts("---------------------------------------");
 		mostrarDadosCliente(cliente);		
 	}
+		
+	fclose( fp );
+}
+
+void pesquisarClientePelaNacionalidade()
+{
+	FILE *fp;
+	CLIENTE cliente;
+	char nacionalidadeProcurada[50];
+	
+	//abrir ou criar o ficheiro 
+	fp = fopen("CLIENTES.DAT", "rb");
+	
+	//colocar o File Pointer no principio do ficheiro
+	rewind(fp);
+		
+	puts("Digite a Nacionalidade");
+	getchar();
+	gets(nacionalidadeProcurada);
+		
+	//escrever os dados da estrutura para o ficheiro
+	while( fread(&cliente, sizeof(CLIENTE), 1, fp) == 1)
+	{	
+		if ( strcmp(cliente.nacionalidade, nacionalidadeProcurada) == 0)
+		{	
+			system("cls");
+						
+			puts("Registo Localizado");
+			puts("----------------------------");
+			mostrarDadosCliente(cliente);
+			
+			fclose(fp);
+			return;
+		}
+	}
+	
+	printf("Clientes com nacionalidade %s nao Encontrado(a)!...\n", nacionalidadeProcurada);
 		
 	fclose( fp );
 }
@@ -325,7 +368,7 @@ void pedirDadosReserva(RESERVA *reserva){
 	printf("Numero_Pessoas?\n");
 	scanf("%d", &reserva->numPessoas);
 	getchar();
-	printf("Horario?\n");
+	printf("Horario? Ex:[HH:MIN]\n");
 	gets(reserva->horario);
 	
 	printf("Nome_Do_Funcionario?\n");
@@ -340,7 +383,7 @@ void pedirDadosReserva(RESERVA *reserva){
     printf("ID_Cliente: %d\n", reserva->idCliente);
     printf("Numero_De_Pessoas: %d\n", reserva->numPessoas);
     printf("Horario: %s\n", reserva->horario);
-    printf("Nome_Do_Funcionario: %c\n", reserva->funcionario);
+    printf("Nome_Do_Funcionario: %s\n", reserva->funcionario);
     printf("Data de Entrada: %02d-%02d-%04d\n", reserva->dataReserva.dia, reserva->dataReserva.mes, reserva->dataReserva.ano);
 }
 
@@ -398,7 +441,7 @@ void mostrarDadosReserva(RESERVA reserva)
 		reserva.dataReserva.dia, 
 		reserva.dataReserva.mes, 
 		reserva.dataReserva.ano);	
-puts("\n---------------------------------------\n");
+
 }
 
 void listarDadosReserva()
@@ -490,14 +533,14 @@ void editarReserva() {
             encontrado = 1;
             printf("\nReserva encontrada! Insira os novos dados:\n");
 
-            printf("Novo número de pessoas: ");
+            printf("Novo nï¿½mero de pessoas: ");
             scanf("%d", &reserva.numPessoas);
 
-            printf("Novo horário (hh:mm): ");
+            printf("Novo horï¿½rio (hh:mm): ");
             scanf("%s", reserva.horario);
 
-            printf("Novo funcionário responsável: ");
-            getchar(); // Limpa buffer
+            printf("Novo funcionï¿½rio responsï¿½vel: ");
+            getchar(); 
             fgets(reserva.funcionario, sizeof(reserva.funcionario), stdin);
             reserva.funcionario[strcspn(reserva.funcionario, "\n")] = '\0'; // Remove o '\n'
 
@@ -511,7 +554,7 @@ void editarReserva() {
     }
 
     if (!encontrado) {
-        printf("Reserva para o cliente %d não encontrada!\n", idClienteBusca);
+        printf("Reserva para o cliente %d nï¿½o encontrada!\n", idClienteBusca);
     }
 
     fclose(arquivo);
@@ -527,7 +570,7 @@ void eliminarReserva() {
 
     FILE *tempArquivo = fopen("TEMP.DAT", "wb");
     if (!tempArquivo) {
-        printf("Erro ao criar arquivo temporário!\n");
+        printf("Erro ao criar arquivo temporï¿½rio!\n");
         fclose(arquivo);
         return;
     }
@@ -555,7 +598,7 @@ void eliminarReserva() {
         remove("RESERVAS.DAT");
         rename("TEMP.DAT", "RESERVAS.DAT");
     } else {
-        printf("Reserva para o cliente %d não encontrada!\n", idClienteBusca);
+        printf("Reserva para o cliente %d nï¿½o encontrada!\n", idClienteBusca);
         remove("TEMP.DAT");
     }
 }
@@ -588,7 +631,7 @@ void pedirDadosVenda(VENDA *venda) {
 	gets(venda->funcionario);
 	
 	printf("Valor_total?\n");
-	scanf("%d", &venda->valor_total);
+	scanf("%f", &venda->valor_total);
 	
 	printf("Data de Venda [DD-MM-AAAA]?\n");
 	scanf("%d%d%d", &venda->data_venda.dia,
@@ -714,7 +757,7 @@ void mostrarDadosVenda(VENDA venda)
 	
 	printf("Quantidade: %d\n", venda.quantidade);
 
-	printf("Valor_Total: %f\n", venda.valor_total);
+	printf("Valor_Total: %3.3f\n", venda.valor_total);
 	
 	printf("Forma_Pagamento: %s\n", venda.forma_pagamento);
 	
@@ -735,7 +778,7 @@ void mostrarDadosProduto(PRODUTO produto)
 	
 	printf("Nome_Produto: %s\n", produto.nome_produto);
 		
-	printf("Preco: %d\n", produto.preco);
+	printf("Preco: %3.3f\n", produto.preco);
 
 }
 
@@ -793,8 +836,8 @@ void pedirDadosProduto(PRODUTO *produto){
 	produto->id= getNextProdutoAutoID();
 	getchar();
 	printf("Nome_Produto?\n");
-	scanf("%s", &produto->preco);
-	
+	scanf("%s", &produto->nome_produto);
+	getchar();
 	printf("Preco?\n");
 	scanf("%f", &produto->preco);
 	getchar();
@@ -882,7 +925,7 @@ void editarProdutoPorNome() {
             fgets(produto.nome_produto, sizeof(produto.nome_produto), stdin);
             produto.nome_produto[strcspn(produto.nome_produto, "\n")] = '\0';
 
-            printf("Novo preço: ");
+            printf("Novo preï¿½o: ");
             scanf("%f", &produto.preco);
             getchar();
 
@@ -895,7 +938,7 @@ void editarProdutoPorNome() {
     }
 
     if (!encontrado) {
-        printf("Produto '%s' não encontrado!\n", nomeBusca);
+        printf("Produto '%s' nï¿½o encontrado!\n", nomeBusca);
     }
 
     fclose(arquivo);
@@ -911,7 +954,7 @@ void eliminarProdutoPorNome() {
 
     FILE *temp = fopen("TEMP.DAT", "wb");
     if (!temp) {
-        printf("Erro ao criar arquivo temporário!\n");
+        printf("Erro ao criar arquivo temporï¿½rio!\n");
         fclose(arquivo);
         return;
     }
@@ -939,9 +982,9 @@ void eliminarProdutoPorNome() {
 
     if (!encontrado) {
         printf("Nenhum produto encontrado com o nome '%s'.\n", nomeBusca);
-        remove("TEMP.DAT"); // Exclui o arquivo temporário se nada foi removido
+        remove("TEMP.DAT"); // Exclui o arquivo temporï¿½rio se nada foi removido
     } else {
         remove("PRODUTOS.DAT");  // Remove o original
-        rename("TEMP.DAT", "PRODUTOS.DAT"); // Renomeia o temporário
+        rename("TEMP.DAT", "PRODUTOS.DAT"); // Renomeia o temporï¿½rio
     }
 }

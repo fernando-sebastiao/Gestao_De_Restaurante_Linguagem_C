@@ -11,7 +11,7 @@ typedef struct
 typedef struct
 {
     int id;
-    char nome[50], telefone[15], bi[15], nacionalidade[20];
+    char nome[50], telefone[15], bi[15], nacionalidade[20], genero[10];
     DATE dataEntrada; 
 } CLIENTE;
 

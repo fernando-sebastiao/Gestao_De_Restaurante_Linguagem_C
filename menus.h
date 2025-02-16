@@ -2,7 +2,7 @@
 void apresentacao();
 void menuPrincipal();
 
-//Login
+//login
 int login();
 //Cliente
 void menuCliente();

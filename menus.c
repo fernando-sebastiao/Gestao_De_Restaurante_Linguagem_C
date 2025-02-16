@@ -14,8 +14,9 @@
 #define ELIMINAR_CLIENTE 3
 #define LISTAR_CLIENTE 4
 #define PESQUISAR_CLIENTE_POR_NOME 5
-#define PESQUISAR_CLIENTE_POR_DATA 6
-#define VOLTAR_CLIENTE 7
+#define PESQUISAR_CLIENTE_PELA_NACIONALIDADE 6
+#define LISTAR_CLIENTES_PELA_DATA 7
+#define VOLTAR_CLIENTE 8
 
 
 #define NOVA_RESERVA 1
@@ -57,7 +58,9 @@ void apresentacao()
 	getchar();
 	scanf("%c", &opcao);
 	if(opcao == 'S' || opcao == 's')
-	menuPrincipal();
+		{
+			menuPrincipal();
+		}
 	else 
 	{
 		printf("Muito Obrigado. Ate a proxima!\n");
@@ -115,6 +118,7 @@ void menuPrincipal()
 		break;
 		
 		case SAIR:
+			printf("Obrigado, Volte sempre!");
 			return;
 		break;
 		
@@ -138,8 +142,9 @@ void menuCliente()
 	printf("***3 - ELIMINAR CLIENTE***\n");
 	printf("***4 - LISTAR CLIENTE***\n");
 	printf("***5 - PESQUISAR POR NOME***\n");
-	printf("***6 - LISTAR CLIENTES PELA DATA***\n");
-	printf("***7 - VOLTAR\n");
+	printf("***6 - PESQUISAR CLIENTE PELA NACIONALIDADE***\n");
+	printf("***7 - LISTAR CLIENTES PELA DATA***\n");
+	printf("***8 - VOLTAR\n");
 	printf("Escolha uma opcao\n");
 	scanf("%d", &opcao);
 	
@@ -161,11 +166,14 @@ void menuCliente()
 			listarDadosCliente();
 		break;
 		
+		case PESQUISAR_CLIENTE_PELA_NACIONALIDADE:
+			pesquisarClientePelaNacionalidade();
+			break;
 		case PESQUISAR_CLIENTE_POR_NOME:
 			pesquisarClientePorNome();
 		break;
 		
-		case PESQUISAR_CLIENTE_POR_DATA:
+		case LISTAR_CLIENTES_PELA_DATA:
 			pesquisarClientesPelaData();
 		break;
 			
@@ -189,7 +197,7 @@ void menuReservas(){
 	printf("***1 - NOVA RESERVA***\n");
 	printf("***2 - EDITAR RESERVA***\n");
 	printf("***3 - ELIMINAR RESERVA ***\n");
-	printf("***4 - LISTAR RESERVA***\n");
+	printf("***4 - LISTAR RESERVAS***\n");
 	printf("***5 - PESQUISAR RESERVA PELA DATA***\n");
 	printf("***6 - VOLTAR***\n");
 	printf("\nEscolha uma opcao\n");
@@ -240,7 +248,7 @@ void menuVendas(){
 	printf("***2 - EDITAR VENDA***\n");
 	printf("***3 - ELIMINAR VENDA ***\n");
 	printf("***4 - LISTAR VENDA***\n");
-	printf("***5 - PESQUISAR VENDA***\n");
+	printf("***5 - PESQUISAR VENDA PELA DATA***\n");
 	printf("***6 - VOLTAR***\n");
 	printf("\nEscolha uma opcao\n");
 	scanf("%d", &opcao);
@@ -289,7 +297,7 @@ void menuProduto(){
 	printf("***2 - EDITAR PRODUTO***\n");
 	printf("***3 - ELIMINAR PRODUTO ***\n");
 	printf("***4 - LISTAR PRODUTOS***\n");
-	printf("***5 - PESQUISAR PRODUTO***\n");
+	printf("***5 - PESQUISAR PRODUTO PELO NOME***\n");
 	printf("***6 - VOLTAR***\n");
 	printf("\nEscolha uma opcao\n");
 	scanf("%d", &opcao);

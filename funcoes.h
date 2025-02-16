@@ -9,6 +9,7 @@ void pesquisarClientePorNome();
 void pesquisarClientesPelaData();
 void eliminarClientePorNome();
 void editarClientePorNome();
+void pesquisarClientePelaNacionalidade();
 
 //Reservas
 void pedirDadosReserva(RESERVA *reserva);
