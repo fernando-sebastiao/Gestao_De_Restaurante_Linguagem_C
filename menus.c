@@ -7,7 +7,8 @@
 #define MENU_RESERVAS 2
 #define MENU_PRODUTO 3
 #define MENU_VENDAS 4
-#define SAIR 5
+#define MENU_DEFESA 5
+#define SAIR 6
 
 #define NOVO_CLIENTE 1
 #define EDITAR_CLIENTE 2
@@ -39,6 +40,11 @@
 #define LISTAR_PRODUTO 4
 #define PESQUISAR_PRODUTO_NOME 5
 #define VOLTAR_PRODUTO 6
+
+
+#define NOVA_DEFESA 1
+#define PESQUISAR_DEFESA_PELA_PAROQUIA 2
+#define VOLTAR_DEFESA 3
 
 void apresentacao()
 {
@@ -97,7 +103,8 @@ void menuPrincipal()
 	printf("***2 - MENU RESERVAS***\n");
 	printf("***3 - MENU PRODUTO***\n");
 	printf("***4 - MENU VENDAS***\n");
-	printf("***5 - SAIR DA APLICACAO\n");
+	printf("***5 - MENU DEFESA\n");
+	printf("***6 - SAIR DA APLICACAO\n");
 	printf("Escolha uma opcao\n");
 	scanf("%d", &opcao);
 	switch(opcao){
@@ -117,8 +124,12 @@ void menuPrincipal()
 			menuVendas();
 		break;
 		
+		case MENU_DEFESA:
+			menuDefesa();
+		break;
+		
 		case SAIR:
-			printf("Obrigado, Volte sempre!");
+			printf("Volte sempre");
 			return;
 		break;
 		
@@ -335,4 +346,34 @@ void menuProduto(){
 }
 
 
-
+void menuDefesa()
+{
+	int opcao;
+	system("cls");
+	
+	do {
+	printf("***MENU DEFESA***\n");
+	printf("***1 - CADASTRAR DEFESA(Paroquia e Diocesse)***\n");
+	printf("***2 - PESQUISAR DEFESA***\n");
+	printf("***3 - VOLTAR\n");
+	printf("Escolha uma opcao\n");
+	scanf("%d", &opcao);
+	switch(opcao){
+		case NOVA_DEFESA:
+			salvarDadosClienteDefesa();
+		break;
+		
+		case PESQUISAR_DEFESA_PELA_PAROQUIA:
+			pesquisarDefesa();
+		break;
+		
+		case VOLTAR_DEFESA:
+			menuPrincipal();
+		break;
+		
+		default:
+			printf("Opcao Invalida\n");
+		}
+	}while(opcao!=VOLTAR_DEFESA);
+	
+}

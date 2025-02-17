@@ -1,9 +1,192 @@
 #include <stdio.h>
 #include "estruturas.h"
 #include "funcoes.h"
+#include "string.h"
 
+//SalvarDadosClienteDefesa
+
+
+
+void pesquisarDefesa() {
+    char paroquiaBusca[30], dioceseBusca[30];
+
+    printf("Digite a Par�quia que deseja buscar: ");
+    scanf(" %[^\n]", paroquiaBusca);
+
+    printf("Digite a Diocese que deseja buscar: ");
+    scanf(" %[^\n]", dioceseBusca);
+
+    FILE *arquivo = fopen("CLIENTESDADOS.DAT", "rb"); // Abre o arquivo para leitura
+    if (arquivo == NULL) {
+        printf("Nenhum defesa registrado.\n");
+        return;
+    }
+
+	CLIENTE cliente;
+    int encontrado = 0;
+
+    while (fread(&cliente, sizeof(CLIENTE), 1, arquivo) == 1) {
+        if (strcmp(cliente.paroquia, paroquiaBusca) == 0 && strcmp(cliente.diocesse, dioceseBusca) == 0) {
+            encontrado = 1;
+
+            printf("\nCliente encontrado:\n");
+            printf("ID: %d\n", cliente.id);
+            printf("Nome: %s\n", cliente.nome);
+            printf("Diocesse: %s\n", cliente.diocesse);
+            printf("Paroquia: %s\n", cliente.paroquia);
+            printf("Genero: %s\n", cliente.genero);
+            printf("Nacionalidade: %s\n", cliente.nacionalidade);
+            printf("---------------------------------\n");
+        }
+    }
+
+    if (!encontrado) {
+        printf("Nenhum cliente encontrado para a Par�quia '%s' e Diocese '%s'.\n", paroquiaBusca, dioceseBusca);
+    }
+
+    fclose(arquivo);
+    system("pause");
+    system("cls");
+}
+
+
+
+void pesquisarDefesaPelaParoquia()
+{
+	FILE *fp;
+	CLIENTE cliente;
+	char nomeProcurado[50];
+	
+	//abrir ou criar o ficheiro 
+	fp = fopen("CLIENTESDADOS.DAT", "rb");
+	
+	//colocar o File Pointer no principio do ficheiro
+	rewind(fp);
+		
+	puts("Digite o Nome Procurado");
+	getchar();
+	gets(nomeProcurado);
+		
+	//escrever os dados da estrutura para o ficheiro
+	while( fread(&cliente, sizeof(CLIENTE), 1, fp) == 1)
+	{	
+		if ( strcmp(cliente.paroquia, nomeProcurado) == 0)
+		{	
+			system("cls");
+						
+			puts("Registo Localizado");
+			puts("----------------------------");
+			mostrarDadosClienteDefesa(cliente);
+			
+			fclose(fp);
+			return;
+		}
+	}
+	
+	printf("Defesa com a paroquia %s nao Encontrado(a)!...\n", nomeProcurado);
+		
+	fclose( fp );
+}
+
+void pedirDadosClientesDefesa(CLIENTE *cliente) {
+	system("cls");
+	printf("\tEntrada de Dados para um Novo Cliente\n\n");
+	
+	printf("Id = %d\n", getNextClienteAutoID());
+	
+	cliente->id = getNextClienteAutoID();
+	getchar();
+	printf("Nome?\n");
+	gets(cliente->nome);
+	
+	printf("Genero?\n");
+	gets(cliente->genero);
+	
+	printf("Telefone?\n");
+	gets(cliente->telefone);
+	
+	printf("BI?\n");
+	gets(cliente->bi);
+	
+	printf("Nacionalidade?\n");
+	gets(cliente->nacionalidade);
+	
+	printf("Paroquia?\n");
+	gets(cliente->paroquia);
+	
+	printf("Diocesse?\n");
+	gets(cliente->diocesse);
+	
+	printf("Data de Entrada [DD-MM-AAAA]?\n");
+	scanf("%d%d%d", &cliente->dataEntrada.dia,
+		&cliente->dataEntrada.mes, &cliente->dataEntrada.ano);
+		
+	printf("\nDados Inseridos:\n");
+    printf("ID: %d\n", cliente->id);
+    printf("Nome: %s\n", cliente->nome);
+    printf("Genero: %s\n", cliente->genero);
+    printf("Telefone: %s\n", cliente->telefone);
+    printf("BI: %s\n", cliente->bi);
+    printf("Nacionalidade: %s\n", cliente->nacionalidade);
+    printf("Data de Entrada: %d-%d-%d\n", cliente->dataEntrada.dia, cliente->dataEntrada.mes, cliente->dataEntrada.ano);
+
+	puts("\n----------------------------\n");
+
+}
+
+void salvarDadosClienteDefesa()
+{
+	FILE *fp;
+	CLIENTE cliente;
+	
+	if (fp = fopen("CLIENTESDADOS.DAT", "ab"))
+	
+	fseek(fp, 0L, SEEK_END);	
+
+	pedirDadosClientesDefesa(&cliente);
+
+	if ( fwrite(&cliente, sizeof(CLIENTE), 1, fp) == 1)	
+	{
+		printf("Registo Salvo com sucesso!\n\n");
+		fflush(fp);
+	}
+		
+	else
+		printf("Erro ao Tentar Salvar o Registo!\n");
+	
+	fclose(fp);
+}
+
+void mostrarDadosClienteDefesa(CLIENTE cliente)
+{
+	printf("Id: %d\n", cliente.id);
+	
+	printf("Nome: %s\n", cliente.nome);
+		
+	printf("BI: %s\n", cliente.bi);
+	
+	printf("Genero: %s\n", cliente.genero);
+	
+	printf("Paroquia: %s\n", cliente.paroquia);
+	
+	printf("Diocesse: %s\n", cliente.diocesse);
+
+	printf("Telefone: %s\n", cliente.telefone);
+	
+	printf("Nacionalidade: %s\n", cliente.nacionalidade);
+	
+	printf("Data de Entrada: [%d-%d-%d]\n", 
+		cliente.dataEntrada.dia, 
+		cliente.dataEntrada.mes, 
+		cliente.dataEntrada.ano);	
+	puts("---------------------------------------\n");
+
+}
+
+
+
+//Termino
 //Relacionado aos dados do cliente
-
 void editarClientePorNome() {
     FILE *arquivo = fopen("CLIENTES.DAT", "rb+");
     if (!arquivo) {
@@ -158,7 +341,10 @@ void salvarDadosCliente()
 	pedirDadosCliente(&cliente);
 
 	if ( fwrite(&cliente, sizeof(CLIENTE), 1, fp) == 1)	
-		printf("Registo Salvo com sucesso!\n\n");
+		{
+			printf("Registo Salvo com sucesso!\n\n");
+			fflush(fp);
+		}
 	else
 		printf("Erro ao Tentar Salvar o Registo!\n");
 	
@@ -398,8 +584,11 @@ void salvarDadosReserva()
 
 	pedirDadosReserva(&reserva);
 
-	if ( fwrite(&reserva, sizeof(RESERVA), 1, fp) == 1)	
+	if ( fwrite(&reserva, sizeof(RESERVA), 1, fp) == 1)
+	{
 		printf("Registo Salvo com sucesso!\n");
+		fflush(fp);
+	}	
 	else
 		printf("Erro ao Tentar Salvar o Registo!\n");
 	
@@ -715,7 +904,11 @@ void salvarDadosVenda()
 	pedirDadosVenda(&venda);
 
 	if ( fwrite(&venda, sizeof(VENDA), 1, fp) == 1)	
+	{
 		printf("Registo Salvo com sucesso!\n");
+		 fflush(fp);
+	}
+		
 	else
 		printf("Erro ao Tentar Salvar o Registo!\n");
 	
@@ -757,7 +950,7 @@ void mostrarDadosVenda(VENDA venda)
 	
 	printf("Quantidade: %d\n", venda.quantidade);
 
-	printf("Valor_Total: %3.3f\n", venda.valor_total);
+	printf("Valor_Total: %2.f\n", venda.valor_total);
 	
 	printf("Forma_Pagamento: %s\n", venda.forma_pagamento);
 	
@@ -818,8 +1011,12 @@ void salvarDadosProduto()
 
 	pedirDadosProduto(&produto);
 
-	if ( fwrite(&produto, sizeof(PRODUTO), 1, fp) == 1)	
+	if ( fwrite(&produto, sizeof(PRODUTO), 1, fp) == 1)
+	{
 		printf("Registo Salvo com sucesso!\n");
+		fflush(fp);
+	}	
+	
 	else
 		printf("Erro ao Tentar Salvar o Registo!\n");
 	

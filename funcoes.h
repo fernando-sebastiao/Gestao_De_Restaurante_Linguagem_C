@@ -1,10 +1,16 @@
 #include  "estruturas.h"
 
+//Defesa
+void pedirDadosClientesDefesa(CLIENTE *cliente);
+void salvarDadosClienteDefesa();
+void pesquisarDefesaPelaParoquia();
+void pesquisarDefesa();
+void mostrarDadosClienteDefesa(CLIENTE cliente);
 //Clientes
 void pedirDadosCliente(CLIENTE *cliente);
 void salvarDadosCliente();
 void mostrarDadosCliente(CLIENTE cliente);
-void listarDadosCliente();
+void listarDadosCliente(); 
 void pesquisarClientePorNome();
 void pesquisarClientesPelaData();
 void eliminarClientePorNome();

@@ -12,6 +12,7 @@ typedef struct
 {
     int id;
     char nome[50], telefone[15], bi[15], nacionalidade[20], genero[10];
+    char paroquia[50], diocesse[50];
     DATE dataEntrada; 
 } CLIENTE;
 
@@ -38,6 +39,7 @@ typedef struct
 	DATE data_venda;
 	float valor_total;
 }VENDA;
+
 
 #endif
 

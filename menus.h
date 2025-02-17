@@ -15,3 +15,6 @@ void menuVendas();
 
 //Produto
 void menuProduto();
+
+//Defesa
+void menuDefesa();
